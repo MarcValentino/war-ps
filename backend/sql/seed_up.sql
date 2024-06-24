@@ -49,7 +49,6 @@ INSERT INTO territorio (idRegiao, nome) VALUES
 (5, 'Grã-Bretanha'),
 (5, 'França'),
 (5, 'Alemanha'),
-(5, 'Europa Oriental'),
 (5, 'Polônia'),
 (5, 'Moscou'),
 -- Oceania

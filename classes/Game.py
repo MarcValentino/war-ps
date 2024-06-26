@@ -1,33 +1,13 @@
-from typing import Tuple
-import pygame
-from pygame.locals import *
 from classes.GraphicalMap import *
 from classes.Window import *
 from classes.Piece import *
-from classes.Territory import *
-from classes.Region import *
-from classes.GameMap import *
-from classes.Dealer import *
-from classes.Player import *
 from classes.GameUI import *
 from classes.IA import *
+from classes.Constants import *
 import pygame_gui
 
 
 pygame.init()
-FONT_SIZE = 12
-NUMBER_OF_PLAYERS = 6
-# 0: branco
-# 1: vermelho
-# 2: verde
-# 3: azul
-# 4: preto
-# 5: amarelo
-PLAYER_ID = 0
-GAME_STAGES = ["DRAFT", "DEPLOY", "ATTACK", "FORTIFY"]
-WINDOW_WIDTH = 1024
-WINDOW_HEIGHT = 700
-VICTORY_MAP_RATE = 0.8
 
 class Game:
   def __init__(self):
@@ -103,7 +83,7 @@ class Game:
     else:
       print(">> Bad territories logic!")
     # criacao da fonte para o texto da quantidade de tropas
-    self.font = pygame.font.SysFont("arialblack", FONT_SIZE)
+    self.font = pygame.font.SysFont("arialblack", TROOPS_FONT_SIZE)
     self.clock = pygame.time.Clock()
     self.gameUI = GameUI((WINDOW_WIDTH, WINDOW_HEIGHT))
 

@@ -1,34 +1,27 @@
-'''from classes.Game import *
+import pygame
 
-if __name__ == '__main__':
-  game = Game()
-  game.onExecute()'''
-
-
-
-
-from classes.Game import *
-
+from classes.MainMenu import MainMenu
 
 
 def main():
-  game = Game()
-  game.onExecute()
+    pygame.init()
+    pygame.display.set_caption('War')
+    menu = MainMenu()
+    menu.run()
 
-  
 
 if __name__ == '__main__':
-  import cProfile
-  
-  cProfile.run('main()', 'output.dat')
-  
-  import pstats
-  from pstats import SortKey
+    import cProfile
 
-  with open('output_time.txt', 'w') as f:
-    p = pstats.Stats('output.dat', stream=f)
-    p.sort_stats('time').print_stats()
+    cProfile.run('main()', 'output.dat')
 
-  with open('output_calls.txt', 'w') as f:
-    p = pstats.Stats('output.dat', stream=f)
-    p.sort_stats('calls').print_stats()
+    import pstats
+    from pstats import SortKey
+
+    with open('output_time.txt', 'w') as f:
+        p = pstats.Stats('output.dat', stream=f)
+        p.sort_stats('time').print_stats()
+
+    with open('output_calls.txt', 'w') as f:
+        p = pstats.Stats('output.dat', stream=f)
+        p.sort_stats('calls').print_stats()

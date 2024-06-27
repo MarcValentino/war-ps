@@ -1,7 +1,7 @@
 import pygame_gui
 import pygame
 
-# Interface para definir os métodos dos estados
+
 class UIState:
     def handleState(self, game_ui):
         pass
@@ -31,7 +31,6 @@ class DeployState(UIState):
         game_ui.selectableTroops.enable()
         game_ui.phase = 'Deploy'
 
-# Classe GameUI refatorada para usar o padrão State
 class GameUI:
     def __init__(self, coordinates: tuple[int, int]):
         self.manager = pygame_gui.UIManager(coordinates)
@@ -57,9 +56,8 @@ class GameUI:
         )
         self.selectableTroops.disable()
 
-        # Estado inicial
         self.state = InactiveState()
-        self.phase = 'Inactive'  # Manter o atributo phase
+        self.phase = 'Inactive'  
 
     def addItemsToSelectableTroops(self, soldierRange: list[str]):
         self.selectableTroops.add_items(soldierRange)

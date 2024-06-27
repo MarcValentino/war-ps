@@ -10,15 +10,15 @@ RETURN_BUTTON = "Voltar"
 
 class OptionsMenu:
     def __init__(self, return_function):
-        self.screen = pygame.display.set_mode((800, 600))
+        self.screen = pygame.display.set_mode((MENU_WIDTH, MENU_HEIGHT))
         self.background_image = pygame.image.load('classes/assets/images/bg/options-menu-bg.png')
         self.return_button = MenuButton(RETURN_BUTTON, 200)
         # x, y, width, height
-        s_data = [SCREEN_WIDTH - 350, 220, 300, 30]
+        s_data = [MENU_WIDTH - 350, 220, 300, 30]
         self.label = OptionsLabel("Volume",
-                             self.screen,
-                             s_data[0] + s_data[2] / 4,
-                             s_data[1] - s_data[3] * 1.5)
+                                  self.screen,
+                                  s_data[0] + s_data[2] / 4,
+                                  s_data[1] - s_data[3] * 1.5)
         self.slider = Slider(s_data[0], s_data[1], s_data[2], s_data[3])
         self.slider.add_observer(self.label)
         self.slider.notify_observers()

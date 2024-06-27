@@ -1,4 +1,5 @@
 from classes.GraphicalMap import *
+from classes.Jukebox import Jukebox
 from classes.Window import *
 from classes.Piece import *
 from classes.GameUI import *
@@ -304,6 +305,9 @@ class Game:
       self.running = False
 
     while(self.running):
+      jukebox = Jukebox()
+      jukebox.check_event()
+
       timeDelta = self.clock.tick(60)/1000.0
       for event in pygame.event.get():
         self.onEvent(event)

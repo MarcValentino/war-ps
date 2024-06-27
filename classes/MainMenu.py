@@ -1,6 +1,7 @@
 import pygame
 from classes.Button import MenuButton
 from classes.Game import *
+from classes.Jukebox import Jukebox
 from classes.OptionsMenu import OptionsMenu
 
 PLAY_BUTTON = "Jogar"
@@ -28,6 +29,9 @@ class MainMenu:
 
         while running:
             for event in pygame.event.get():
+                jukebox = Jukebox()
+                jukebox.check_event()
+
                 if event.type == pygame.QUIT:
                     running = False
                 elif self.in_options_menu:

@@ -1,11 +1,17 @@
+import asyncio
+
 import pygame
 
+from classes.Jukebox import Jukebox
 from classes.MainMenu import MainMenu
 
 
 def main():
     pygame.init()
     pygame.display.set_caption('War')
+    jukebox = Jukebox()
+    jukebox.run()
+
     menu = MainMenu()
     menu.run()
 

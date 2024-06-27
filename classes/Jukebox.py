@@ -32,6 +32,3 @@ class Jukebox:
     def check_event(self):
         if not self.is_playing():
             self.play()
-    def run(self):
-        self.add_song("classes/assets/Danger Loop.wav")
-        self.play()

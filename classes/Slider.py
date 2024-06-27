@@ -3,9 +3,8 @@ from classes.Constants import *
 
 
 class Slider:
-    def __init__(self, x, y, width, height, label, initial_value=0.5):
+    def __init__(self, x, y, width, height, initial_value=0.5):
         self.rect = pygame.Rect(x, y, width, height)
-        self.label = label
         self.x = x
         self.y = y
         self.width = width
@@ -14,10 +13,9 @@ class Slider:
         self.value = initial_value
         self.font = pygame.font.Font(None, 36)
         self.dragging = False
+        self.observers = []
 
     def draw(self, screen):
-        volume_text = self.font.render(self.label + ":" + f"{int(self.value * 100)}%", True, (0, 0, 0))
-        screen.blit(volume_text, (self.x + self.width / 4, self.y - self.height * 1.5))
         pygame.draw.rect(screen, DARK_GRAY, self.rect)
         pygame.draw.rect(screen, GRAY, self.handle_rect)
 
@@ -31,5 +29,18 @@ class Slider:
             if self.dragging:
                 self.handle_rect.x = min(max(event.pos[0] - self.handle_rect.width // 2, self.rect.x),
                                          self.rect.right - self.handle_rect.width)
-                self.value = (self.handle_rect.x - self.rect.x) / self.rect.width
+                self.value = (self.handle_rect.x - self.rect.x) / (self.rect.width - self.handle_rect.width)
                 pygame.mixer.music.set_volume(self.value)
+                self.notify_observers()
+
+    def add_observer(self, observer):
+        if observer not in self.observers:
+            self.observers.append(observer)
+
+    def remove_observer(self, observer):
+        if observer in self.observers:
+            self.observers.remove(observer)
+
+    def notify_observers(self):
+        for observer in self.observers:
+            observer.update(self.value)

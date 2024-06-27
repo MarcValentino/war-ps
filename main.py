@@ -10,7 +10,8 @@ def main():
     pygame.init()
     pygame.display.set_caption('War')
     jukebox = Jukebox()
-    jukebox.run()
+    jukebox.add_song("classes/assets/Danger Loop.wav")
+    jukebox.play()
 
     menu = MainMenu()
     menu.run()

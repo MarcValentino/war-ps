@@ -5,6 +5,7 @@ from classes.Piece import *
 from classes.GameUI import *
 from classes.IA import *
 from classes.Constants import *
+from classes.database.models.SessaoJogo import *
 import pygame_gui
 
 
@@ -13,9 +14,9 @@ pygame.init()
 class Game:
   def __init__(self):
     pygame.init()
+    self.saveGame()
     self.window = Window(WINDOW_WIDTH, WINDOW_HEIGHT)
     self.graphicalMap = GraphicalMap("classes/assets/images/bg/water.png", self.window.width, self.window.height)
-    
     # criacao dos jogadores
     self.players: list[Player] = []
     for p in range(NUMBER_OF_PLAYERS):
@@ -101,7 +102,10 @@ class Game:
     self.playerRound = randint(0, NUMBER_OF_PLAYERS-1)
     self.troopsToDeploy = 0
     self.cardReceiver = False
-    
+  
+  def saveGame(self):
+    newSession = SessaoJogo()
+    newSession.save()
   
   def goToNextStage(self):
     self.gameStage = GAME_STAGES[(GAME_STAGES.index(self.gameStage) + 1) % len(GAME_STAGES)]

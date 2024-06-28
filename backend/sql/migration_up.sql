@@ -1,7 +1,7 @@
 create table if not exists sessaoJogo (
 	id serial primary key,
-	estadoPartida varchar(25) default 'esperando jogadores'
-
+	estadoPartida varchar(25) default 'ativa'
+	criada_em TIMESTAMPTZ default NOW()
 );
 
 create table if not exists regiao (
@@ -12,7 +12,7 @@ create table if not exists regiao (
 
 create table if not exists sessaojogador (
 	id serial primary key,
-	idjogador int not null references jogador(id),
+	idjogador int not null,
 	idsessao int not null references sessaojogo(id),
 	vez int not null,
 	naPartida bool default true,

@@ -66,7 +66,7 @@ class Game:
       Territory([39,41],5,'NovaZelandia',40,907,514,962,568),
       Territory([38,40],5,'Australia',41,840,530,881,595)]
     self.piecesColors = ["" for i in range(len(self.territories))]
-    self.regions: list[Region] = [Region('América do Norte', 3, 0), Region('América do Sul', 2, 1), Region('Europa', 2, 2), Region('Africa', 9, 3), Region('Ásia', 6, 4), Region('Oceania', 2, 5)]
+    self.regions: list[Region] = [Region('América do Norte', 3, 0), Region('América do Sul', 2, 1), Region('Europa', 4, 2), Region('Africa', 3, 3), Region('Ásia', 5, 4), Region('Oceania', 2, 5)]
     self.dealer = Dealer(NUMBER_OF_PLAYERS, self.territories, self.regions)
     # distribui territorios entre os jogadores
     playersTerritories = self.dealer.listOfStartingTerritoriesOfAllPlayers()

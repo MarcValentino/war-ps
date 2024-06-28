@@ -1,7 +1,7 @@
 INSERT INTO regiao (bonusDeTropa, nome) VALUES
-(2, 'América do Norte'),
+(3, 'América do Norte'),
 (2, 'América do Sul'),
-(5, 'Europa'),
+(4, 'Europa'),
 (3, 'África'),
 (5, 'Ásia'),
 (2, 'Oceania');
@@ -57,7 +57,10 @@ INSERT INTO territorio (idRegiao, nome) VALUES
 (6, 'Nova Zelândia'),
 (6, 'Austrália');
 
+
+/* OBS.: NÃO ACHO QUE PRECISAMOS GUARDAR AS ADJACÊNCIAS (não vamos ter outros mapas)
 -- Inserir vizinhanças dos territórios (verificar dps pq foi gerado pelo chatGPT)
+
 INSERT INTO territoriosvizinhos (idterritorio1, idterritorio2) VALUES
 -- Ásia
 (1, 2),
@@ -81,8 +84,21 @@ INSERT INTO territoriosvizinhos (idterritorio1, idterritorio2) VALUES
 (8, 11),
 (9, 10),
 -- América do Norte
-(13, 14),
-(13, 10),
+(1,2),
+(1,4),
+(1,30),
+(2,4),
+(2,5),
+(2,3),
+(3,5),
+(3,6),
+(3,14),
+(4,5),
+(4,7),
+(5,6),
+(5,7),
+(5,8),
+--
 (14, 15),
 (14, 17),
 (15, 19),
@@ -123,3 +139,4 @@ INSERT INTO territoriosvizinhos (idterritorio1, idterritorio2) VALUES
 (38, 40),
 (39, 41),
 (40, 41);
+*/

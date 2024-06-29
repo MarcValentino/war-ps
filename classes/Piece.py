@@ -1,9 +1,8 @@
 import pygame
 
 from classes.Territory import *
+from classes.Constants import *
 
-COLORS = ["bran", "verm", "verd", "azul", "pret", "amar"]
-SELECTED_COLORS = [(38,41,44), (0,51,75), (32,33,26), (34,31,28), (21,21,21), (15,2,79)]
 
 class Piece(pygame.sprite.Sprite):
   def __init__(self, territoryId: int, territoryName: str, territoryColor: str, troops: int, pos_x: int, pos_y: int, text_center_x: int, text_center_y: int):

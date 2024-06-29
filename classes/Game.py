@@ -6,6 +6,8 @@ from classes.GameUI import *
 from classes.IA import *
 from classes.Constants import *
 from classes.database.models.SessaoJogo import *
+from classes.database.models.SessaoJogador import *
+from classes.database.models.TerritorioSessaoJogador import *
 import pygame_gui
 
 
@@ -14,7 +16,7 @@ pygame.init()
 class Game:
   def __init__(self):
     pygame.init()
-    self.saveGame()
+    # self.saveGame()
     self.window = Window(WINDOW_WIDTH, WINDOW_HEIGHT)
     self.graphicalMap = GraphicalMap("classes/assets/images/bg/water.png", self.window.width, self.window.height)
     # criacao dos jogadores
@@ -106,7 +108,24 @@ class Game:
   def saveGame(self):
     newSession = SessaoJogo()
     newSession.save()
-  
+    for player in self.players:
+      playerTerritories = list(filter(lambda t: t.color == player.color, self.territories))
+      newPlayer = SessaoJogador(
+        idJogador=player.id, 
+        idSessao=newSession.get_id(), 
+        vez=not player.isAI, # supondo que o jogador sempre vai sair na sua vez
+        naPartida=len(playerTerritories)>0, 
+        ehIA=player.isAI,
+        cor=player.color
+      )
+      newPlayer.save()
+      if len(playerTerritories) > 0:
+        for territory in playerTerritories:
+          TerritorioSessaoJogador(
+            idSessaoJogador = newPlayer.get_id(),
+            idTerritorio = territory.id+1,
+            contagemTropas = territory.numberOfTroops
+          ).save()
   def goToNextStage(self):
     self.gameStage = GAME_STAGES[(GAME_STAGES.index(self.gameStage) + 1) % len(GAME_STAGES)]
     print("\t>> new stage is", self.gameStage)
@@ -302,6 +321,7 @@ class Game:
     # self.manager.draw_ui(self.graphicalMap.image)
 
   def onCleanup(self):
+    self.saveGame()
     pygame.quit()
 
   def onExecute(self):

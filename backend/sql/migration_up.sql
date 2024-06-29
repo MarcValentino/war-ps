@@ -14,7 +14,7 @@ create table if not exists sessaojogador (
 	id serial primary key,
 	idjogador int not null,
 	idsessao int not null references sessaojogo(id),
-	vez int not null,
+	vez bool not null,
 	naPartida bool default true,
 	ehIA bool not null,
 	cor varchar(15)

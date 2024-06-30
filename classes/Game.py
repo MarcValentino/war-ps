@@ -5,6 +5,9 @@ from classes.Piece import *
 from classes.GameUI import *
 from classes.IA import *
 from classes.Constants import *
+from classes.database.models.SessaoJogo import *
+from classes.database.models.SessaoJogador import *
+from classes.database.models.TerritorioSessaoJogador import *
 import pygame_gui
 
 
@@ -15,8 +18,8 @@ class Game:
     pygame.init()
     self.window = Window(WINDOW_WIDTH, WINDOW_HEIGHT)
     self.graphicalMap = GraphicalMap("classes/assets/images/bg/water.png", self.window.width, self.window.height)
-    
     # criacao dos jogadores
+    self.matchStatus = 'ongoing'
     self.players: list[Player] = []
     for p in range(NUMBER_OF_PLAYERS):
       self.players.append(Player(p, "Jogador "+  str(p+1), list(COLORS)[p], p != PLAYER_ID))
@@ -66,7 +69,7 @@ class Game:
       Territory([39,41],5,'NovaZelandia',40,907,514,962,568),
       Territory([38,40],5,'Australia',41,840,530,881,595)]
     self.piecesColors = ["" for i in range(len(self.territories))]
-    self.regions: list[Region] = [Region('América do Norte', 3, 0), Region('América do Sul', 2, 1), Region('Europa', 2, 2), Region('Africa', 9, 3), Region('Ásia', 6, 4), Region('Oceania', 2, 5)]
+    self.regions: list[Region] = [Region('América do Norte', 3, 0), Region('América do Sul', 2, 1), Region('Europa', 4, 2), Region('Africa', 3, 3), Region('Ásia', 5, 4), Region('Oceania', 2, 5)]
     self.dealer = Dealer(NUMBER_OF_PLAYERS, self.territories, self.regions)
     # distribui territorios entre os jogadores
     playersTerritories = self.dealer.listOfStartingTerritoriesOfAllPlayers()
@@ -101,8 +104,30 @@ class Game:
     self.playerRound = randint(0, NUMBER_OF_PLAYERS-1)
     self.troopsToDeploy = 0
     self.cardReceiver = False
-    
   
+  def saveGame(self):
+    if self.matchStatus == 'ongoing':
+      newSession = SessaoJogo()
+      newSession.save()
+      for player in self.players:
+        playerTerritories = list(filter(lambda t: t.color == player.color, self.territories))
+        newPlayer = SessaoJogador(
+          idJogador=player.id, 
+          idSessao=newSession.get_id(), 
+          vez=not player.isAI, # supondo que o jogador sempre vai sair na sua vez
+          naPartida=len(playerTerritories)>0, 
+          ehIA=player.isAI,
+          cor=player.color
+        )
+        newPlayer.save()
+        if len(playerTerritories) > 0:
+          for territory in playerTerritories:
+            TerritorioSessaoJogador(
+              idSessaoJogador = newPlayer.get_id(),
+              idTerritorio = territory.id+1,
+              contagemTropas = territory.numberOfTroops
+            ).save()
+
   def goToNextStage(self):
     self.gameStage = GAME_STAGES[(GAME_STAGES.index(self.gameStage) + 1) % len(GAME_STAGES)]
     print("\t>> new stage is", self.gameStage)
@@ -119,7 +144,8 @@ class Game:
     player = self.players[self.playerRound]
     if len(self.gameMap.getAllTerritoriesOfColors(player.color)) >= len(self.territories) * VICTORY_MAP_RATE:
       self.hasWon(player)
-      
+    self.matchStatus = 'player victory'
+
   def hasWon(self, player: Player):
     for t in self.territories:
       t.colonize(player.color)
@@ -298,6 +324,7 @@ class Game:
     # self.manager.draw_ui(self.graphicalMap.image)
 
   def onCleanup(self):
+    self.saveGame()
     pygame.quit()
 
   def onExecute(self):

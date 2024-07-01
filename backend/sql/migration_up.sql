@@ -1,6 +1,6 @@
 create table if not exists sessaoJogo (
 	id serial primary key,
-	estadoPartida varchar(25) default 'ativa'
+	estadoPartida varchar(25) default 'ativa',
 	criada_em TIMESTAMPTZ default NOW()
 );
 

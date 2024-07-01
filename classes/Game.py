@@ -13,8 +13,27 @@ import pygame_gui
 
 pygame.init()
 
+class GameStageController:
+  def __init__(self, stages):
+    self.stages = stages
+    self.current_stage_index = 0
+
+  def next_stage(self):
+    self.current_stage_index = (self.current_stage_index + 1) % len(self.stages)
+    return self.stages[self.current_stage_index]
+
+  def set_stage(self, stage_name):
+    if stage_name in self.stages:
+        self.current_stage_index = self.stages.index(stage_name)
+    else:
+        raise ValueError(f"{stage_name} não encontrado.")
+
+  def get_current_stage(self):
+    return self.stages[self.current_stage_index]
+
 class Game:
   def __init__(self):
+
     pygame.init()
     self.window = Window(WINDOW_WIDTH, WINDOW_HEIGHT)
     self.graphicalMap = GraphicalMap("classes/assets/images/bg/water.png", self.window.width, self.window.height)
@@ -32,6 +51,8 @@ class Game:
     self.clock = pygame.time.Clock()
     self.gameUI = GameUI((WINDOW_WIDTH, WINDOW_HEIGHT))
     self.pieces_group = self.create_pieces_group()
+    self.gameStageController = GameStageController(GAME_STAGES)  # Initialize GameStageController
+
   
   def create_players(self):
     players = []
@@ -111,11 +132,11 @@ class Game:
     return pieces_group
 
   def onInit(self):
-    self.running = True
-    self.gameStage = GAME_STAGES[0]
-    self.playerRound = randint(0, NUMBER_OF_PLAYERS-1)
-    self.troopsToDeploy = 0
-    self.cardReceiver = False
+        self.running = True
+        self.gameStage = self.gameStageController.get_current_stage()
+        self.playerRound = randint(0, NUMBER_OF_PLAYERS-1)
+        self.troopsToDeploy = 0
+        self.cardReceiver = False
   
   def saveGame(self):
     newSession = SessaoJogo()
@@ -140,10 +161,10 @@ class Game:
           ).save()
 
   def goToNextStage(self):
-    self.gameStage = GAME_STAGES[(GAME_STAGES.index(self.gameStage) + 1) % len(GAME_STAGES)]
-    print("\t>> new stage is", self.gameStage)
-    if GAME_STAGES.index(self.gameStage) == 0:
-      self.goToNextPlayerRound()
+        self.gameStage = self.gameStageController.next_stage()
+        print("\t>> ", self.gameStage)
+        if self.gameStageController.current_stage_index == 0:
+            self.goToNextPlayerRound()
     
   def goToNextPlayerRound(self):
     self.playerRound = (self.playerRound + 1) % NUMBER_OF_PLAYERS

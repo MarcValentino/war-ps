@@ -1,64 +1,66 @@
 INSERT INTO regiao (bonusDeTropa, nome) VALUES
-(5, 'Ásia'),
-(2, 'América do Norte'),
+(3, 'América do Norte'),
 (2, 'América do Sul'),
+(4, 'Europa'),
 (3, 'África'),
-(5, 'Europa'),
+(5, 'Ásia'),
 (2, 'Oceania');
 
 -- Inserir territórios (países)
 INSERT INTO territorio (idRegiao, nome) VALUES
--- Ásia
-(1, 'Oriente Médio'),
-(1, 'Índia'),
-(1, 'Aral'),
-(1, 'Omsk'),
-(1, 'China'),
-(1, 'Sibéria'),
-(1, 'Mongólia'),
-(1, 'Irkutsk'),
-(1, 'Japão'),
-(1, 'Vladivostok'),
-(1, 'Chita'),
-(1, 'Vietnã'),
 -- América do Norte
-(2, 'Alasca'),
-(2, 'Vancouver'),
-(2, 'Califórnia'),
-(2, 'Groenlândia'),
-(2, 'Ottawa'),
-(2, 'Nova York'),
-(2, 'México'),
-(2, 'Labrador'),
-(2, 'Mackenzie'),
+(1, 'Alasca'),
+(1, 'Mackenzie'),
+(1, 'Groenlândia'),
+(1, 'Vancouver'),
+(1, 'Ottawa'),
+(1, 'Labrador'),
+(1, 'Califórnia'),
+(1, 'Nova York'),
+(1, 'México'),
 -- América do Sul
-(3, 'Brasil'),
-(3, 'Argentina'),
-(3, 'Peru'),
-(3, 'Venezuela'),
+(2, 'Colombia'),
+(2, 'Bolivia'),
+(2, 'Brasil'),
+(2, 'Argentina'),
+-- Europa
+(3, 'Islândia'),
+(3, 'Suécia'),
+(3, 'Moscou'),
+(3, 'Inglaterra'),
+(3, 'Alemanha'),
+(3, 'Portugal'),
+(3, 'Polônia'),
 -- África
-(4, 'Egito'),
 (4, 'Argélia'),
+(4, 'Egito'),
+(4, 'Sudão'),
 (4, 'Congo'),
 (4, 'África do Sul'),
-(4, 'Sudão'),
 (4, 'Madagascar'),
--- Europa
-(5, 'Islândia'),
-(5, 'Escandinávia'),
-(5, 'Grã-Bretanha'),
-(5, 'França'),
-(5, 'Alemanha'),
-(5, 'Europa Oriental'),
-(5, 'Polônia'),
-(5, 'Moscou'),
+-- Ásia
+(5, 'Omsk'),
+(5, 'Irkutsk'),
+(5, 'Sibéria'),
+(5, 'Vladivostok'),
+(5, 'Chita'),
+(5, 'Mongólia'),
+(5, 'Aral'),
+(5, 'China'),
+(5, 'Japão'),
+(5, 'Oriente Médio'),
+(5, 'Índia'),
+(5, 'Vietnã'),
 -- Oceania
-(6, 'Borneo'),
-(6, 'Nova Guiné'),
 (6, 'Sumatra'),
+(6, 'Nova Guiné'),
+(6, 'Nova Zelândia'),
 (6, 'Austrália');
 
+
+/* OBS.: NÃO ACHO QUE PRECISAMOS GUARDAR AS ADJACÊNCIAS (não vamos ter outros mapas)
 -- Inserir vizinhanças dos territórios (verificar dps pq foi gerado pelo chatGPT)
+
 INSERT INTO territoriosvizinhos (idterritorio1, idterritorio2) VALUES
 -- Ásia
 (1, 2),
@@ -82,8 +84,21 @@ INSERT INTO territoriosvizinhos (idterritorio1, idterritorio2) VALUES
 (8, 11),
 (9, 10),
 -- América do Norte
-(13, 14),
-(13, 10),
+(1,2),
+(1,4),
+(1,30),
+(2,4),
+(2,5),
+(2,3),
+(3,5),
+(3,6),
+(3,14),
+(4,5),
+(4,7),
+(5,6),
+(5,7),
+(5,8),
+--
 (14, 15),
 (14, 17),
 (15, 19),
@@ -124,3 +139,4 @@ INSERT INTO territoriosvizinhos (idterritorio1, idterritorio2) VALUES
 (38, 40),
 (39, 41),
 (40, 41);
+*/

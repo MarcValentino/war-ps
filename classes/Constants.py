@@ -16,6 +16,8 @@ NUMBER_OF_PLAYERS = 6
 # 3: azul
 # 4: preto
 # 5: amarelo
+COLORS = ["bran", "verm", "verd", "azul", "pret", "amar"]
+SELECTED_COLORS = [(38,41,44), (0,51,75), (32,33,26), (34,31,28), (21,21,21), (15,2,79)]
 PLAYER_ID = 0
 GAME_STAGES = ["DRAFT", "DEPLOY", "ATTACK", "FORTIFY"]
 WINDOW_WIDTH = 1024

@@ -5,6 +5,9 @@ from classes.Piece import *
 from classes.GameUI import *
 from classes.IA import *
 from classes.Constants import *
+from classes.database.models.SessaoJogo import *
+from classes.database.models.SessaoJogador import *
+from classes.database.models.TerritorioSessaoJogador import *
 import pygame_gui
 
 
@@ -113,8 +116,30 @@ class Game:
     self.playerRound = randint(0, NUMBER_OF_PLAYERS-1)
     self.troopsToDeploy = 0
     self.cardReceiver = False
-    
   
+  def saveGame(self):
+    if self.matchStatus == 'ongoing':
+      newSession = SessaoJogo()
+      newSession.save()
+      for player in self.players:
+        playerTerritories = list(filter(lambda t: t.color == player.color, self.territories))
+        newPlayer = SessaoJogador(
+          idJogador=player.id, 
+          idSessao=newSession.get_id(), 
+          vez=not player.isAI, # supondo que o jogador sempre vai sair na sua vez
+          naPartida=len(playerTerritories)>0, 
+          ehIA=player.isAI,
+          cor=player.color
+        )
+        newPlayer.save()
+        if len(playerTerritories) > 0:
+          for territory in playerTerritories:
+            TerritorioSessaoJogador(
+              idSessaoJogador = newPlayer.get_id(),
+              idTerritorio = territory.id+1,
+              contagemTropas = territory.numberOfTroops
+            ).save()
+
   def goToNextStage(self):
     self.gameStage = GAME_STAGES[(GAME_STAGES.index(self.gameStage) + 1) % len(GAME_STAGES)]
     print("\t>> new stage is", self.gameStage)
@@ -131,7 +156,8 @@ class Game:
     player = self.players[self.playerRound]
     if len(self.gameMap.getAllTerritoriesOfColors(player.color)) >= len(self.territories) * VICTORY_MAP_RATE:
       self.hasWon(player)
-      
+    self.matchStatus = 'player victory'
+
   def hasWon(self, player: Player):
     for t in self.territories:
       t.colonize(player.color)
@@ -310,6 +336,7 @@ class Game:
     # self.manager.draw_ui(self.graphicalMap.image)
 
   def onCleanup(self):
+    self.saveGame()
     pygame.quit()
 
   def onExecute(self):
